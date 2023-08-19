@@ -13,7 +13,7 @@
 
 // Your code goes here...
 
-
+const allItems = document.querySelectorAll('.item');
 
 /**
  * @task
@@ -23,6 +23,7 @@
  * */
 
 // Your code goes here
+const main = document.getElementById('main');
 
 
 
@@ -32,7 +33,7 @@
  * Store it in the favs constant
  * Example: const favs = <Your code>;
  */
-
+const favs = document.getElementById('favs');
 // Your code goes here
 
 
@@ -47,7 +48,19 @@
  */
 
 // Your code goes here
-
+ function updateCollections(id, direction) {
+  let collectionNum = document.getElementById(id);
+  let heart = collectionNum.querySelector('i');
+  if(direction === 'toFavs') {
+   heart.classList.add('fa-heart-crack');
+   heart.classList.remove('fa-heart-circle-plus');
+   favs.appendChild(collectionNum);
+} else if(direction === 'toMain') {
+  heart.classList.add('fa-heart-circle-plus');
+  heart.classList.remove('fa-heart-crack');
+  main.appendChild(collectionNum);
+}
+ }
 
 
 /**
@@ -66,4 +79,26 @@
 
 // Your code goes here...
 
+allItems.forEach(item => {
+  item.addEventListener("click", () => {
+      // Get the current item's parent ID ('main' or 'favs')
+      const parentID = item.parentElement.id;
 
+      // Get the current item ID (a number value)
+      const itemID = item.id;
+
+      // Set the direction based on the current location
+      let direction;
+      if (parentID === "main") {
+          direction = "toFavs";
+      } else if (parentID === "favs") {
+          direction = "toMain";
+      } else {
+          console.error("Invalid parent ID:", parentID);
+          return;
+      }
+
+      // Make the updateCollections function call
+      updateCollections(itemID, direction);
+  });
+});

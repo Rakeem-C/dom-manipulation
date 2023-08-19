@@ -38,3 +38,61 @@
  */
 
 // Your code goes here...
+// Assume container with class .items holds all individual .item elements.
+
+const container = document.querySelector('.cardsContainer');
+
+const loadFavorites = () => {
+  return JSON.parse(localStorage.getItem('favorites')) || [];
+}
+
+const favsBackground = () => {
+const favorites = loadFavorites();
+favorites.forEach(id => {
+   const favoriteItem = document.getElementById(id);
+   if (favoriteItem) {
+       favoriteItem.style.backgroundColor = 'red';
+   }
+
+});
+
+};
+
+const addToFavorites = (id) => {
+     const favorites = loadFavorites();
+     if (!favorites.includes(id)) {
+      favorites.push(id);
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+    }
+}
+
+const removeFromFavorites = (id) => {
+   let favorites = loadFavorites();
+   favorites = favorites.filter(favId => favId !== id);
+   localStorage.setItem('favorites', JSON.stringify(favorites));
+}
+
+
+
+
+const cardClickHandler = (event) => {
+ if (event.target.classList.contains('card'))  {
+  const card = event.target;
+  const cardId = card.id;
+  const isFavorite = loadFavorites().includes(cardId);
+
+  if (!isFavorite && card.style.backgroundColor !== 'red') {
+  card.style.backgroundColor = 'red';
+  addToFavorites(cardId);
+ } else if (isFavorite && card.style.backgroundColor === 'red') {
+  card.style.backgroundColor = 'white';
+  removeFromFavorites(cardId);
+}
+}
+}
+
+
+
+container.addEventListener('click', cardClickHandler);
+
+favsBackground();

@@ -13,7 +13,7 @@
 
 // Your code goes here...
 
-
+const allItems = document.querySelectorAll('.item');
 
 /**
  * @task
@@ -23,6 +23,8 @@
  */
 
 // Your code goes here...
+
+const sortBtn = document.querySelectorAll('.sortBtn');
 
 
 
@@ -39,6 +41,36 @@
 
 // Your code goes here...
 
+function sortData (direction) {
+  // Defines the container variable to get the node by id of 'main'
+ const container = document.querySelector('#main');
+ //Uses the all Items variable as a source for the array of items to sort
+ const itemArr = Array.from(allItems);
+
+ // Sorts the items by id 
+ itemArr.sort((a,b) => {
+  const idA = a.getAttribute('id');
+  const idB = b.getAttribute('id');
+ 
+  if (direction === 'asc') {
+ if (idA < idB) return -1;
+ if (idA > idB) return 1;
+ return 0;
+ } else if (direction === 'desc') {
+   if (idA > idB) return -1;
+   if (idA < idB) return 1;
+   return 0;
+ }
+});
+
+
+itemArr.forEach(item => {
+container.appendChild(item);
+
+
+});
+
+}
 
 
 /**
@@ -52,3 +84,10 @@
 // Your code goes here...
 
 
+
+sortBtn.forEach(button => {
+  button.addEventListener('click', function() {
+      const sortDirection = this.dataset.sortdir; 
+      sortData(sortDirection);
+  });
+});
